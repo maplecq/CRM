@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+ <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 为这个mapper指定一个唯一的namespace，namespace的值设置成包名+DAO接口名，这样就能够保证namespace的值是唯一的并能够匹配DAO接口 
+	例如namespace="com.slsd.dao.ITeacherDao"就是com.slsd.dao(包名)+ITeacherDao(接口名) -->
+<mapper namespace="com.slsd.dao.ITeacherDao">
+	<!-- 在select标签中编写查询的SQL语句， 设置select标签的id属性为getUser，id属性值必须是唯一的，不能够重复 使用parameterType属性指明查询时使用的参数类型，resultType属性指明查询返回的结果集类型 
+		resultType="com.slsd.entity.Teacher"就表示将查询结果封装成一个Teacher类的对象返回Teacher类就是teacher表所对应的实体类 -->
+	<!-- 根据id查询得到一个user对象 -->
+	<select id="findAllTeacher" resultType="Teacher">
+		select * from teacher order by tid
+	</select>
+
+	<select id="findTeacherById" parameterType="int" resultType="Teacher">
+		select * from teacher where tid=#{id}
+	</select>
+	<!-- mysql、sqlserver等数据库本身带有主键自增长像auto_increment的功能可以直接使用 useGeneratedKeys="true"来实现 -->
+	<!-- 而oracle则不行，oracle主键自增长是通过sequence实现的 -->
+	<insert id="addTeacher" useGeneratedKeys="false" keyProperty="tid"
+		parameterType="com.slsd.entity.Teacher">
+		insert into teacher (tid,tname,taddress)
+		values(tea_seq.nextval,#{tname},#{taddress})
+	</insert>
+	<update id="editTeacher" parameterType="Teacher">
+		update teacher set
+		tname=#{tname},taddress=#{taddress} where tid=#{tid}
+	</update>
+	<update id="delTeacher" parameterType="int">
+		delete from teacher where
+		tid=#{tid}
+	</update>
+</mapper>
