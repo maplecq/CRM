@@ -1,0 +1,10 @@
+java.sql.Timestamp timestamp = new java.sql.Timestamp(System.currentTimeMillis());
+			Object[] record = new Object[]{msgId, timestamp};
+
+
+String sql = "insert into tbl_test(id,user_name,birthday) values(?,?,to_date(?,'yyyy-MM-dd'))";
+SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+Object[] params = new Object[]{3,"scott",format.format(new Date())};
+
+<property name="jdbcUrl">jdbc:mysql://localhost:3306/dbweb?useUnicode=true&amp;characterEncoding=UTF8&amp;zeroDateTimeBehavior=convertToNull 
+
